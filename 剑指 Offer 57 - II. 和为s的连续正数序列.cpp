@@ -1,41 +1,31 @@
-剑指 Offer 57 - II. 和为s的连续正数序列
-输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
+剑指 Offer 46. 把数字翻译成字符串
+给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。
 
-序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
+示例 1:
 
-示例 1：
+输入: 12258
+输出: 5
+解释: 12258有5种不同的翻译，分别是"bccfi", "bwfi", "bczi", "mcfi"和"mzi"
 
-输入：target = 9
-输出：[[2,3,4],[4,5]]
-示例 2：
+提示：
 
-输入：target = 15
-输出：[[1,2,3,4,5],[4,5,6],[7,8]]
- 
-
-限制：
-
-1 <= target <= 10^5
+0 <= num < 231
 
 class Solution {
 public:
-    vector<vector<int>> findContinuousSequence(int target) {
-        if(target<3) return {};
-        vector<vector<int>> res;
-        int i=1,j=2;
-        while(i<j){
-            int sum=(i+j)*(j-i+1)/2;
-            if(sum==target){
-                vector<int> temp;
-                for(int k=i;k<=j;k++){
-                    temp.push_back(k);
-                }
-                res.push_back(temp);
-                i++;
-            }
-            else if(sum>target) i++;
-            else j++;
+    int translateNum(int num) {
+        string str=to_string(num);
+        int n=str.size();
+        int fn_2=1,fn_1=1;
+        int fn;
+        if(n==1) return 1;
+        for(int i=2;i<=n;i++){
+            int temp=(str[i-2]-'0')*10+(str[i-1]-'0')*1;
+            if(temp>=10&&temp<=25) fn=fn_2+fn_1;
+            else fn=fn_1;
+            fn_2=fn_1;
+            fn_1=fn;
         }
-        return res;
+        return fn;
     }
 };
