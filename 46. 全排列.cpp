@@ -41,3 +41,28 @@ public:
         return res;
     }
 };
+
+class Solution {
+public:
+    void dfs(vector<vector<int>>& res, vector<int>& temp, vector<bool>& used, vector<int>& nums){
+        if(temp.size()==nums.size()){
+            res.push_back(temp);
+            return;
+        }
+        for(int i=0;i<nums.size();i++){
+            if(used[i]==true) continue;
+            temp.push_back(nums[i]);
+            used[i]=true;
+            dfs(res,temp,used,nums);
+            temp.pop_back();
+            used[i]=false;
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> temp;
+        vector<bool> used(nums.size(),false);
+        dfs(res,temp,used,nums);
+        return res;
+    }
+};
