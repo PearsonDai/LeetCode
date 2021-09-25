@@ -24,55 +24,27 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-//递归法
-class Solution {
-public:
-    void postorder(TreeNode* root,vector<int>& res){
-        if(root==nullptr)return;
-        postorder(root->left,res);
-        postorder(root->right,res);
-        res.push_back(root->val);
-    }
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> res;
-        postorder(root,res);
-        return res;
-    }
-};
-
-//迭代法
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) {
+        if(root == nullptr) return {};
         vector<int> res;
         stack<TreeNode*> stk;
-        TreeNode *prev=nullptr;
-        while(root||!stk.empty()){
+        TreeNode* prev = nullptr;
+        while(root || !stk.empty()){
             while(root){
                 stk.push(root);
-                root=root->left;
+                root = root->left;
             }
-            root=stk.top();
-            stk.pop();
-            if(root->right==nullptr||root->right==prev){
+            root = stk.top();
+            if(root->right == nullptr || root->right == prev){
                 res.push_back(root->val);
-                prev=root;
-                root=nullptr;
+                stk.pop();
+                prev = root;
+                root = nullptr;
             }
             else{
-                stk.push(root);
-                root=root->right;
+                root = root->right;
             }
         }
         return res;
